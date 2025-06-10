@@ -1,0 +1,19 @@
+{
+  "name": "andre-tools",
+  "version": "1.0.0",
+  "description": "Andre Tools - Transcrição, Conversão e Diagramação",
+  "main": "bin/andre-tools.js",
+  "bin": {
+    "andre-tools": "./bin/andre-tools.js"
+  },
+  "scripts": {
+    "start": "node bin/andre-tools.js",
+    "postinstall": "cd frontend && npm install && cd ../backend && npm install"
+  },
+  "author": "Andre Lucas",
+  "license": "MIT",
+  "dependencies": {
+    "concurrently": "^8.2.2",
+    "chalk": "^4.1.2"
+  }
+}
