@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Mic, Settings, HelpCircle, FileUp } from "lucide-react";
+import {
+  Home,
+  Mic,
+  Settings,
+  HelpCircle,
+  FileUp,
+  PencilRuler,
+} from "lucide-react";
 
 const menuItems = [
   {
@@ -19,6 +26,11 @@ const menuItems = [
     name: "Conversor",
     href: "/conversor",
     icon: FileUp,
+  },
+  {
+    name: "Excalidraw",
+    href: "/excalidraw",
+    icon: PencilRuler,
   },
 ];
 

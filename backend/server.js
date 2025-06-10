@@ -6,6 +6,7 @@ const fs = require("fs-extra");
 // Importar routes
 const transcribeRoutes = require("./routes/transcribe");
 const convertRoutes = require("./routes/convert");
+const excalidrawRoutes = require("./routes/excalidraw");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -30,6 +31,7 @@ fs.ensureDirSync(convertedDir);
 // Routes
 app.use("/api/transcribe", transcribeRoutes);
 app.use("/api/convert", convertRoutes);
+app.use("/api/excalidraw", excalidrawRoutes);
 
 // Servir arquivos convertidos
 app.use("/downloads", express.static(uploadsDir));

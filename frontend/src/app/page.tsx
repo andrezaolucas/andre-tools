@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mic, FileText, ArrowRight } from "lucide-react";
+import { Mic, FileText, ArrowRight, PencilRuler } from "lucide-react";
 
 export default function Home() {
   return (
@@ -9,12 +9,12 @@ export default function Home() {
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">Andre Tools</h1>
           <p className="text-xl text-gray-600">
-            Ferramentas para transcrição e conversão de arquivos
+            Ferramentas para transcrição, conversão de arquivos e diagramação
           </p>
         </div>
 
         {/* Cards de Funcionalidades */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Card Transcrição */}
           <Link
             href="/transcricao"
@@ -52,6 +52,25 @@ export default function Home() {
               Converta entre diferentes formatos de arquivo
             </p>
           </Link>
+
+          {/* Card Excalidraw */}
+          <Link
+            href="/excalidraw"
+            className="group bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-all border border-gray-200"
+          >
+            <div className="flex items-center justify-between mb-4">
+              <div className="p-3 bg-purple-100 rounded-lg">
+                <PencilRuler className="h-6 w-6 text-purple-600" />
+              </div>
+              <ArrowRight className="h-5 w-5 text-gray-400 group-hover:text-purple-600 transition-colors" />
+            </div>
+            <h3 className="text-lg font-semibold text-gray-900 mb-2">
+              Excalidraw
+            </h3>
+            <p className="text-gray-600">
+              Crie e edite diagramas e desenhos com Excalidraw
+            </p>
+          </Link>
         </div>
 
         {/* Características */}
@@ -59,7 +78,7 @@ export default function Home() {
           <h2 className="text-2xl font-semibold text-gray-900 mb-4">
             Recursos Disponíveis
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div>
               <h3 className="font-medium text-gray-900 mb-2">Transcrição</h3>
               <ul className="space-y-2 text-gray-600">
@@ -76,6 +95,15 @@ export default function Home() {
                 <li>• Conversão de vídeo para áudio</li>
                 <li>• Conversão entre formatos de imagem</li>
                 <li>• Conversão de documentos para PDF</li>
+              </ul>
+            </div>
+            <div>
+              <h3 className="font-medium text-gray-900 mb-2">Excalidraw</h3>
+              <ul className="space-y-2 text-gray-600">
+                <li>• Crie diagramas e desenhos</li>
+                <li>• Salve e gerencie arquivos</li>
+                <li>• Histórico de arquivos recentes</li>
+                <li>• Integração com navegador</li>
               </ul>
             </div>
           </div>
