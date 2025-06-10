@@ -76,14 +76,16 @@ export default function TranscriptionResult({
 
   if (isLoading) {
     return (
-      <div className="bg-white border border-gray-200 rounded-lg p-8">
-        <div className="flex flex-col items-center justify-center space-y-4">
-          <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
+      <div className="card p-12">
+        <div className="flex flex-col items-center justify-center space-y-6">
+          <div className="p-4 bg-blue-100 rounded-full">
+            <Loader2 className="h-12 w-12 text-blue-600 animate-spin" />
+          </div>
           <div className="text-center">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-xl font-medium text-gray-900 mb-3">
               Transcrevendo...
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 max-w-lg mx-auto leading-relaxed">
               Processando seu arquivo com IA. Isso pode levar alguns minutos.
             </p>
           </div>
@@ -94,14 +96,16 @@ export default function TranscriptionResult({
 
   if (!transcription) {
     return (
-      <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg p-8">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <FileText className="h-12 w-12 text-gray-400" />
+      <div className="card p-12 border-2 border-dashed">
+        <div className="flex flex-col items-center justify-center space-y-6 text-center">
+          <div className="p-4 bg-gray-100 rounded-full">
+            <FileText className="h-12 w-12 text-gray-400" />
+          </div>
           <div>
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-xl font-medium text-gray-900 mb-3">
               Nenhuma transcrição ainda
             </h3>
-            <p className="text-gray-600">
+            <p className="text-gray-600 max-w-lg mx-auto leading-relaxed">
               Faça upload de um arquivo de áudio ou vídeo para começar
             </p>
           </div>
@@ -139,14 +143,16 @@ export default function TranscriptionResult({
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
+    <div className="card overflow-hidden">
       {/* Header com informações do arquivo */}
-      <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <CheckCircle className="h-6 w-6 text-green-600" />
+      <div className="bg-gray-50 px-8 py-6 border-b border-gray-200">
+        <div className="flex-between">
+          <div className="flex items-center space-x-4">
+            <div className="p-3 bg-green-100 rounded-lg">
+              <CheckCircle className="h-6 w-6 text-green-600" />
+            </div>
             <div>
-              <h3 className="font-medium text-gray-900">
+              <h3 className="text-lg font-medium text-gray-900 mb-1">
                 Transcrição Concluída
               </h3>
               <p className="text-sm text-gray-600">
@@ -164,29 +170,23 @@ export default function TranscriptionResult({
       </div>
 
       {/* Conteúdo da transcrição */}
-      <div className="p-6">
-        <div className="space-y-4">
+      <div className="p-8">
+        <div className="space-y-6">
           {/* Botões de ação */}
-          <div className="flex space-x-2">
-            <button
-              onClick={handleCopy}
-              className="flex items-center space-x-2 px-3 py-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors text-sm"
-            >
-              <Copy className="h-4 w-4" />
+          <div className="flex space-x-3">
+            <button onClick={handleCopy} className="btn btn-secondary">
+              <Copy className="h-4 w-4 mr-2" />
               <span>{copied ? "Copiado!" : "Copiar"}</span>
             </button>
-            <button
-              onClick={handleDownload}
-              className="flex items-center space-x-2 px-3 py-2 bg-green-100 text-green-700 rounded-lg hover:bg-green-200 transition-colors text-sm"
-            >
-              <Download className="h-4 w-4" />
+            <button onClick={handleDownload} className="btn btn-secondary">
+              <Download className="h-4 w-4 mr-2" />
               <span>Download</span>
             </button>
           </div>
 
           {/* Texto da transcrição */}
-          <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-            <div className="max-h-96 overflow-y-auto">
+          <div className="bg-gray-50 rounded-lg p-6 border border-gray-200">
+            <div className="max-h-[32rem] overflow-y-auto pr-4 -mr-4">
               <p className="text-gray-900 leading-relaxed whitespace-pre-wrap">
                 {transcription.text || "Nenhum texto foi detectado no arquivo."}
               </p>
@@ -194,18 +194,18 @@ export default function TranscriptionResult({
           </div>
 
           {/* Estatísticas */}
-          <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
+          <div className="grid grid-cols-2 gap-8 pt-6 border-t border-gray-200">
             <div className="text-center">
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-3xl font-bold text-gray-900 mb-2">
                 {transcription.text ? transcription.text.split(" ").length : 0}
               </p>
-              <p className="text-sm text-gray-600">Palavras</p>
+              <p className="text-sm text-gray-600 font-medium">Palavras</p>
             </div>
             <div className="text-center">
-              <p className="text-2xl font-bold text-gray-900">
+              <p className="text-3xl font-bold text-gray-900 mb-2">
                 {transcription.text ? transcription.text.length : 0}
               </p>
-              <p className="text-sm text-gray-600">Caracteres</p>
+              <p className="text-sm text-gray-600 font-medium">Caracteres</p>
             </div>
           </div>
         </div>

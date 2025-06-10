@@ -40,7 +40,7 @@ export default function ProgressIndicator({
 
   // Atualizar tempo decorrido a cada segundo
   useEffect(() => {
-    if (!startTime || currentStep === "finishing") return;
+    if (!startTime) return;
 
     const interval = setInterval(() => {
       const start = new Date(startTime).getTime();
@@ -117,7 +117,12 @@ export default function ProgressIndicator({
                     <CheckCircle className="w-6 h-6" />
                   ) : (
                     <Icon
-                      className={`w-6 h-6 ${isActive ? "animate-spin" : ""}`}
+                      className={`w-6 h-6 ${
+                        isActive &&
+                        (step.id === "processing" || step.id === "finishing")
+                          ? "animate-spin"
+                          : ""
+                      }`}
                     />
                   )}
                 </div>

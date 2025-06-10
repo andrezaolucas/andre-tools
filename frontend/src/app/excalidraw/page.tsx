@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { Clock, FileText, X, PencilRuler, Upload } from "lucide-react";
+import { FileSkeleton } from "@/components/ui/Skeleton";
 
 interface RecentFile {
   path: string;
@@ -11,7 +12,7 @@ interface RecentFile {
 
 export default function ExcalidrawPage() {
   const [recentFiles, setRecentFiles] = useState<RecentFile[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -27,6 +28,8 @@ export default function ExcalidrawPage() {
     } catch (error) {
       console.error("Erro:", error);
       setError("Não foi possível carregar os arquivos recentes");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -61,7 +64,6 @@ export default function ExcalidrawPage() {
           ? error.message
           : "Não foi possível abrir o arquivo"
       );
-    } finally {
       setIsLoading(false);
     }
   };
@@ -110,99 +112,120 @@ export default function ExcalidrawPage() {
     } catch (error) {
       console.error("Erro:", error);
       setError("Não foi possível enviar o arquivo");
-    } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="p-6 max-w-7xl mx-auto">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Excalidraw</h1>
-        <div className="flex items-center space-x-4">
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".excalidraw"
-            onChange={handleFileSelect}
-            className="hidden"
-          />
-          <button
-            onClick={() => fileInputRef.current?.click()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2"
-            disabled={isLoading}
-          >
-            <Upload className="h-4 w-4" />
-            <span>Selecionar Arquivo</span>
-          </button>
+    <div className="section-padding">
+      <div className="container">
+        <div className="flex-between mb-8">
+          <h1 className="text-3xl font-bold text-gray-900">Excalidraw</h1>
+          <div>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".excalidraw"
+              onChange={handleFileSelect}
+              className="hidden"
+            />
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="btn btn-primary"
+              disabled={isLoading}
+            >
+              <Upload className="h-4 w-4 mr-2" />
+              <span>Selecionar Arquivo</span>
+            </button>
+          </div>
         </div>
-      </div>
 
-      {error && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-          {error}
-        </div>
-      )}
-
-      {isLoading && (
-        <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg text-blue-700">
-          Processando arquivo...
-        </div>
-      )}
-
-      {/* Grid de Arquivos Recentes */}
-      <div className="space-y-6">
-        {recentFiles.length > 0 && (
-          <>
-            <h2 className="text-xl font-semibold text-gray-900">
-              Arquivos Recentes
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-              {recentFiles.map((file) => (
-                <button
-                  key={file.path}
-                  onClick={() => openFile(file.path)}
-                  disabled={isLoading}
-                  className="group bg-white rounded-lg shadow-md hover:shadow-lg transition-all border border-gray-200 overflow-hidden"
-                >
-                  {/* Preview */}
-                  <div className="aspect-square bg-gray-50 flex items-center justify-center border-b border-gray-200 group-hover:bg-gray-100 transition-colors">
-                    <PencilRuler className="h-12 w-12 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                  </div>
-                  {/* Info */}
-                  <div className="p-4">
-                    <div className="text-sm font-medium text-gray-900 truncate mb-1">
-                      {file.name}
-                    </div>
-                    <div className="flex items-center text-xs text-gray-500">
-                      <Clock className="h-3 w-3 mr-1" />
-                      <span>
-                        {new Date(file.lastOpened).toLocaleString("pt-BR")}
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </>
-        )}
-
-        {/* Conteúdo Principal */}
-        {recentFiles.length === 0 && (
-          <div className="bg-white rounded-lg border border-gray-200 p-6">
-            <div className="text-center space-y-4">
-              <PencilRuler className="h-12 w-12 mx-auto text-blue-600" />
-              <h2 className="text-xl font-semibold text-gray-900">
-                Integração com Excalidraw
-              </h2>
-              <p className="text-gray-600 max-w-md mx-auto">
-                Abra e edite seus arquivos do Excalidraw diretamente do Andre
-                Tools. Clique no botão acima para selecionar um arquivo
-                .excalidraw.
-              </p>
-            </div>
+        {error && (
+          <div className="mb-8 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+            {error}
           </div>
         )}
+
+        {/* Grid de Arquivos Recentes */}
+        <div className="space-y-8">
+          {recentFiles.length > 0 && (
+            <>
+              <h2 className="text-2xl font-semibold text-gray-900">
+                Arquivos Recentes
+              </h2>
+              <div className="grid-responsive">
+                {isLoading ? (
+                  <>
+                    <FileSkeleton />
+                    <FileSkeleton />
+                    <FileSkeleton />
+                    <FileSkeleton />
+                  </>
+                ) : (
+                  recentFiles.map((file) => (
+                    <button
+                      key={file.path}
+                      onClick={() => openFile(file.path)}
+                      disabled={isLoading}
+                      className="card card-hover overflow-hidden group"
+                    >
+                      {/* Preview */}
+                      <div className="aspect-square bg-gray-50 flex-center border-b border-gray-200 group-hover:bg-gray-100 transition-colors">
+                        <PencilRuler className="h-12 w-12 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                      </div>
+                      {/* Info */}
+                      <div className="p-4">
+                        <div className="font-medium text-gray-900 truncate mb-2">
+                          {file.name}
+                        </div>
+                        <div className="flex items-center text-sm text-gray-500">
+                          <Clock className="h-4 w-4 mr-1.5" />
+                          <span>
+                            {new Date(file.lastOpened).toLocaleString("pt-BR")}
+                          </span>
+                        </div>
+                      </div>
+                    </button>
+                  ))
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Conteúdo Principal */}
+          {recentFiles.length === 0 && !isLoading && (
+            <div className="card p-12">
+              <div className="text-center space-y-6">
+                <div className="p-4 bg-blue-100 rounded-full inline-flex">
+                  <PencilRuler className="h-12 w-12 text-blue-600" />
+                </div>
+                <div>
+                  <h2 className="text-2xl font-semibold text-gray-900 mb-3">
+                    Integração com Excalidraw
+                  </h2>
+                  <p className="text-gray-600 max-w-lg mx-auto leading-relaxed">
+                    Abra e edite seus arquivos do Excalidraw diretamente do
+                    Andre Tools. Clique no botão acima para selecionar um
+                    arquivo .excalidraw.
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Estado de Carregamento Inicial */}
+          {isLoading && recentFiles.length === 0 && (
+            <div className="space-y-8">
+              <div className="h-8 w-48 bg-gray-200 rounded-md animate-pulse" />
+              <div className="grid-responsive">
+                <FileSkeleton />
+                <FileSkeleton />
+                <FileSkeleton />
+                <FileSkeleton />
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

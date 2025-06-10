@@ -183,6 +183,11 @@ export default function TranscriptionUpload({
               throw new Error("Texto transcrito está vazio após limpeza.");
             }
 
+            // Adicionar delay artificial na etapa de finalização
+            await new Promise((resolve) =>
+              setTimeout(resolve, Math.random() * 2000 + 2000)
+            ); // 2-4 segundos
+
             onTranscriptionComplete({
               text: cleanText,
               filename: statusResponse.data.filename,
@@ -257,36 +262,42 @@ export default function TranscriptionUpload({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {/* Área de Upload */}
       {!selectedFile ? (
         <div
-          className={`upload-area ${dragOver ? "dragover" : ""}`}
+          className={`upload-area group ${dragOver ? "dragover" : ""}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
           onClick={handleUploadClick}
         >
-          <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            Arraste arquivos aqui ou clique para selecionar
-          </h3>
-          <p className="text-gray-600 mb-4">
-            Suporte para MP3, WAV, MP4, MOV (máx. 100MB)
-          </p>
-          <button className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-            Selecionar Arquivo
-          </button>
+          <div className="space-y-6">
+            <div className="p-4 bg-blue-100 rounded-full inline-flex group-hover:bg-blue-200 transition-colors">
+              <Upload className="h-12 w-12 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="text-xl font-medium text-gray-900 mb-3">
+                Arraste arquivos aqui ou clique para selecionar
+              </h3>
+              <p className="text-gray-600 mb-6">
+                Suporte para MP3, WAV, MP4, MOV (máx. 100MB)
+              </p>
+              <button className="btn btn-primary">Selecionar Arquivo</button>
+            </div>
+          </div>
         </div>
       ) : (
         /* Arquivo Selecionado */
-        <div className="space-y-4">
-          <div className="bg-white border border-gray-200 rounded-lg p-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                {getFileIcon(selectedFile)}
+        <div className="space-y-6">
+          <div className="card p-6">
+            <div className="flex-between">
+              <div className="flex items-center space-x-4">
+                <div className="p-3 bg-blue-100 rounded-lg">
+                  {getFileIcon(selectedFile)}
+                </div>
                 <div>
-                  <h4 className="font-medium text-gray-900">
+                  <h4 className="text-lg font-medium text-gray-900 mb-1">
                     {selectedFile.name}
                   </h4>
                   <p className="text-sm text-gray-600">
@@ -296,7 +307,7 @@ export default function TranscriptionUpload({
               </div>
               <button
                 onClick={handleRemoveFile}
-                className="text-gray-400 hover:text-red-600 transition-colors"
+                className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-full transition-colors"
                 disabled={isLoading}
               >
                 <X className="h-5 w-5" />
@@ -306,7 +317,7 @@ export default function TranscriptionUpload({
 
           {/* Indicador de Progresso */}
           {isLoading && (
-            <div className="bg-white border border-gray-200 rounded-lg p-4">
+            <div className="card p-6">
               <ProgressIndicator
                 currentStep={currentStep}
                 progress={currentStep === "upload" ? uploadProgress : 0}
