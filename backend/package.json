@@ -19,12 +19,16 @@
   "author": "Andre Lucas",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.18.2",
     "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "fluent-ffmpeg": "^2.1.3",
+    "fs-extra": "^11.1.1",
     "multer": "^1.4.5-lts.1",
     "nodejs-whisper": "^0.2.9",
-    "fs-extra": "^11.1.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pdfkit": "^0.14.0",
+    "sharp": "^0.33.5",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

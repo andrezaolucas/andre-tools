@@ -5,6 +5,7 @@ const fs = require("fs-extra");
 
 // Importar routes
 const transcribeRoutes = require("./routes/transcribe");
+const convertRoutes = require("./routes/convert");
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -22,10 +23,16 @@ app.use(express.urlencoded({ extended: true }));
 
 // Criar pasta para uploads temporários
 const uploadsDir = path.join(__dirname, "uploads");
+const convertedDir = path.join(uploadsDir, "converted");
 fs.ensureDirSync(uploadsDir);
+fs.ensureDirSync(convertedDir);
 
 // Routes
 app.use("/api/transcribe", transcribeRoutes);
+app.use("/api/convert", convertRoutes);
+
+// Servir arquivos convertidos
+app.use("/downloads", express.static(uploadsDir));
 
 // Endpoint de teste
 app.get("/api/health", (req, res) => {

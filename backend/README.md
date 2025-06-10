@@ -9,6 +9,7 @@ API REST para transcrição de áudio e vídeo usando Whisper.cpp localmente.
 - **Node.js** >= 16.0.0
 - **npm** ou **yarn**
 - **Python** (para compilação do node-whisper)
+- **FFmpeg** (para conversão de áudio/vídeo)
 
 ### 1. Instalar dependências
 
@@ -80,6 +81,42 @@ Transcreve arquivo de áudio/vídeo.
 }
 ```
 
+### `POST /api/convert`
+
+Converte arquivos entre diferentes formatos.
+
+**Request:**
+
+- Content-Type: `multipart/form-data`
+- Campo: `file` (arquivo)
+- Campo: `conversionType` (formato de saída)
+
+**Formatos suportados:**
+
+- Áudio/Vídeo: mp4→mp3, mov→mp3, opus→mp3, wav→mp3
+- Imagem: heic→jpg/png, png↔jpg, imagem→pdf
+- Documento: docx→pdf, txt→pdf
+
+**Resposta de sucesso:**
+
+```json
+{
+  "downloadUrl": "/downloads/converted/arquivo-convertido.mp3",
+  "filename": "arquivo.mp4",
+  "filesize": 1234567,
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+**Resposta de erro:**
+
+```json
+{
+  "error": "Mensagem de erro",
+  "details": "Stack trace (apenas em desenvolvimento)"
+}
+```
+
 ### `GET /api/transcribe/status`
 
 Verifica status do serviço de transcrição.
@@ -100,6 +137,8 @@ Verifica status do serviço de transcrição.
 - **Express.js** - Framework web
 - **Multer** - Upload de arquivos
 - **nodejs-whisper** - Binding do Whisper.cpp
+- **fluent-ffmpeg** - Conversão de áudio/vídeo
+- **sharp** - Processamento de imagens
 - **fs-extra** - Operações de sistema de arquivos
 - **cors** - Cross-Origin Resource Sharing
 
@@ -109,8 +148,10 @@ Verifica status do serviço de transcrição.
 backend/
 ├── server.js           # Servidor principal
 ├── routes/
-│   └── transcribe.js   # Routes de transcrição
+│   ├── transcribe.js   # Routes de transcrição
+│   └── convert.js      # Routes de conversão
 ├── uploads/            # Pasta temporária (criada automaticamente)
+│   └── converted/      # Arquivos convertidos
 ├── package.json
 └── README.md
 ```

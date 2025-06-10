@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Mic, Settings, HelpCircle } from "lucide-react";
+import { Home, Mic, Settings, HelpCircle, FileUp } from "lucide-react";
 
 const menuItems = [
   {
@@ -14,6 +14,11 @@ const menuItems = [
     name: "Transcrição",
     href: "/transcricao",
     icon: Mic,
+  },
+  {
+    name: "Conversor",
+    href: "/conversor",
+    icon: FileUp,
   },
 ];
 

@@ -29,6 +29,7 @@ A aplicação rodará em **http://localhost:3000**
 
 - **Upload de arquivos** com drag & drop
 - **Transcrição offline** usando Whisper.cpp
+- **Conversor de formatos** para áudio, vídeo, imagens e documentos
 - **Interface responsiva** e moderna
 - **Feedback visual** durante processamento
 - **Copiar texto** para área de transferência
@@ -38,8 +39,7 @@ A aplicação rodará em **http://localhost:3000**
 
 ### 🔄 Planejadas (Em breve)
 
-- Conversor de formatos de áudio/vídeo
-- Histórico de transcrições
+- Histórico de transcrições e conversões
 - Configurações de modelo Whisper
 - Modo escuro
 
@@ -61,12 +61,16 @@ frontend/
 │   │   ├── layout.tsx         # Layout principal
 │   │   ├── page.tsx           # Página inicial
 │   │   ├── globals.css        # Estilos globais
-│   │   └── transcricao/       # Página de transcrição
+│   │   ├── transcricao/       # Página de transcrição
+│   │   │   └── page.tsx
+│   │   └── conversor/         # Página de conversor
 │   │       └── page.tsx
 │   └── components/            # Componentes React
 │       ├── Sidebar.tsx        # Menu lateral
-│       ├── TranscriptionUpload.tsx    # Upload de arquivos
-│       └── TranscriptionResult.tsx    # Resultado da transcrição
+│       ├── TranscriptionUpload.tsx    # Upload para transcrição
+│       ├── TranscriptionResult.tsx    # Resultado da transcrição
+│       ├── ConversionUpload.tsx       # Upload para conversão
+│       └── ConversionResult.tsx       # Resultado da conversão
 ├── public/                    # Arquivos estáticos
 ├── package.json
 ├── next.config.js            # Configuração do Next.js
@@ -91,6 +95,14 @@ frontend/
 - **Result Display**: Texto transcrito com opções de ação
 - **Error Handling**: Mensagens de erro claras
 
+### Página de Conversor
+
+- **Upload Area**: Drag & drop ou clique para selecionar
+- **Format Selection**: Dropdown com formatos suportados
+- **Progress Indicator**: Feedback visual do processamento
+- **Result Display**: Link para download do arquivo convertido
+- **Error Handling**: Mensagens de erro claras
+
 ### Componentes
 
 #### `Sidebar`
@@ -113,6 +125,21 @@ frontend/
 - Exibição do texto transcrito
 - Botões de copiar e download
 - Estatísticas (palavras/caracteres)
+- Estados de loading e erro
+
+#### `ConversionUpload`
+
+- Upload com drag & drop
+- Validação de arquivos
+- Preview de arquivos selecionados
+- Seleção de formato de saída
+- Botão de conversão
+- Estados de loading
+
+#### `ConversionResult`
+
+- Link para download do arquivo convertido
+- Informações do arquivo (nome, tamanho)
 - Estados de loading e erro
 
 ## ⚙️ Configuração
