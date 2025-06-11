@@ -94,8 +94,8 @@ export default function Sidebar() {
       {/* Rodapé */}
       <div className="p-4 border-t border-gray-200">
         <div className="text-xs text-gray-500 text-center">
-          <p>Andre Tools v1.0</p>
-          <p>Powered by Whisper AI</p>
+          <p>Andre Tools v1.5</p>
+          <p>Powered by @andrezaolucas</p>
         </div>
       </div>
     </div>
